@@ -23,7 +23,7 @@ export function GamePlay({ duration, onGameEnd }: GamePlayProps) {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
-          onGameEnd({ ...score }); // Ensure the latest score is passed
+          onGameEnd({ ...score });
           return 0;
         }
         return prevTime - 1;
@@ -31,7 +31,7 @@ export function GamePlay({ duration, onGameEnd }: GamePlayProps) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [score]); // Depend on score to ensure the latest value is captured
+  }, [score]);
 
   const generateNewNumber = () => {
     let newNumber;
