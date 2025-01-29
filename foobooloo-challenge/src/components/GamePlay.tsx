@@ -14,32 +14,32 @@ export function GamePlay({ duration, onGameEnd }: GamePlayProps) {
   const [answer, setAnswer] = useState("");
   const [timeLeft, setTimeLeft] = useState(duration);
   const [score, setScore] = useState({ correct: 0, incorrect: 0 });
-  const [usedNumbers] = useState(new Set<number>());
+  const [usedNumbers, setUsedNumbers] = useState(new Set<number>());
   const { toast } = useToast();
 
   useEffect(() => {
     generateNewNumber();
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
           clearInterval(timer);
-          onGameEnd(score);
+          onGameEnd({ ...score }); // Ensure the latest score is passed
           return 0;
         }
-        return prev - 1;
+        return prevTime - 1;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [score]); // Depend on score to ensure the latest value is captured
 
   const generateNewNumber = () => {
     let newNumber;
     do {
       newNumber = Math.floor(Math.random() * 1000) + 1;
     } while (usedNumbers.has(newNumber));
-    
-    usedNumbers.add(newNumber);
+
+    setUsedNumbers((prev) => new Set(prev).add(newNumber));
     setCurrentNumber(newNumber);
   };
 
@@ -59,7 +59,7 @@ export function GamePlay({ duration, onGameEnd }: GamePlayProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const isCorrect = checkAnswer(answer);
-    
+
     setScore((prev) => ({
       correct: prev.correct + (isCorrect ? 1 : 0),
       incorrect: prev.incorrect + (isCorrect ? 0 : 1),
