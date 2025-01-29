@@ -1,7 +1,8 @@
 {
+  "homepage": "https://sir-apple.github.io/foobooloo-challenge/",
   "name": "foobooloo-challenge",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "start": "vite",
