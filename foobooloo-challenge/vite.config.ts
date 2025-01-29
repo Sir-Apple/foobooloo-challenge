@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
   ].filter(Boolean),
-  // base:"/foobooloo-challenge",
+  base:"/foobooloo-challenge",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
